@@ -1,1 +1,1 @@
-rootProject.name = "android-template-plugin"
+rootProject.name = "android-template"
