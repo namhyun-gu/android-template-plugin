@@ -4,6 +4,9 @@ import com.android.tools.idea.wizard.template.RecipeExecutor
 import com.android.tools.idea.wizard.template.SKIP_LINE
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileEditor.OpenFileDescriptor
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.ThrowableComputable
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VfsUtil
@@ -32,11 +35,22 @@ fun RecipeExecutor.saveFile(source: String, to: File) {
     }
 }
 
+fun RecipeExecutor.openFile(project: Project, file: File) {
+    val vFile = VfsUtil.findFileByIoFile(file, true)
+    if (vFile != null) {
+        val descriptor = OpenFileDescriptor(project, vFile)
+        FileEditorManager.getInstance(project).openEditor(descriptor, true)
+    }
+}
+
 private fun checkedCreateDirectoryIfMissing(directory: File): VirtualFile =
-    WriteCommandAction.runWriteCommandAction(null, ThrowableComputable<VirtualFile, IOException> {
-        VfsUtil.createDirectoryIfMissing(directory.absolutePath)
-            ?: throw IOException("Unable to create " + directory.absolutePath)
-    })
+    WriteCommandAction.runWriteCommandAction(
+        null,
+        ThrowableComputable<VirtualFile, IOException> {
+            VfsUtil.createDirectoryIfMissing(directory.absolutePath)
+                ?: throw IOException("Unable to create " + directory.absolutePath)
+        }
+    )
 
 private fun CharSequence.withoutSkipLines() = this.split("\n")
     .filter { it.trim() != SKIP_LINE }

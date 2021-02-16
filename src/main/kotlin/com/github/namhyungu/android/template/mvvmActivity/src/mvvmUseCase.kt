@@ -1,11 +1,15 @@
+package com.github.namhyungu.android.template.mvvmActivity.src
+
 import com.android.tools.idea.wizard.template.escapeKotlinIdentifier
 
-fun mvvmUiState(
+fun mvvmUseCase(
     packageName: String,
-    uiStateClass: String
+    useCaseClass: String
 ) =
     """
 package ${escapeKotlinIdentifier(packageName)}
 
-data class $uiStateClass(val data: String = "")
+class $useCaseClass(
+) : UseCase<P, R> {
+}
 """

@@ -1,11 +1,13 @@
+package com.github.namhyungu.android.template.mvvmActivity.src
+
 import com.android.tools.idea.wizard.template.escapeKotlinIdentifier
 
-fun mvvmUiState(
+fun mvvmAction(
     packageName: String,
-    uiStateClass: String
+    actionClass: String
 ) =
     """
 package ${escapeKotlinIdentifier(packageName)}
 
-data class $uiStateClass(val data: String = "")
+sealed class $actionClass
 """

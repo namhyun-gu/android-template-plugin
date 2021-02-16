@@ -1,7 +1,20 @@
 package com.github.namhyungu.android.template.mvvmActivity
 
-import com.android.tools.idea.wizard.template.*
+import com.android.tools.idea.wizard.template.Category
+import com.android.tools.idea.wizard.template.Constraint.LAYOUT
+import com.android.tools.idea.wizard.template.Constraint.NONEMPTY
+import com.android.tools.idea.wizard.template.Constraint.UNIQUE
+import com.android.tools.idea.wizard.template.FormFactor
+import com.android.tools.idea.wizard.template.ModuleTemplateData
+import com.android.tools.idea.wizard.template.PackageNameWidget
+import com.android.tools.idea.wizard.template.Separator
+import com.android.tools.idea.wizard.template.TemplateData
+import com.android.tools.idea.wizard.template.TextFieldWidget
+import com.android.tools.idea.wizard.template.WizardUiContext
+import com.android.tools.idea.wizard.template.activityToLayout
 import com.android.tools.idea.wizard.template.impl.defaultPackageNameParameter
+import com.android.tools.idea.wizard.template.stringParameter
+import com.android.tools.idea.wizard.template.template
 import com.github.namhyungu.android.template.common.MIN_API
 
 val mvvmActivityTemplate
@@ -20,17 +33,24 @@ val mvvmActivityTemplate
             WizardUiContext.NewModule
         )
 
-        lateinit var layoutName: StringParameter
         val screenName = stringParameter {
             name = "Screen Name"
-            constraints = listOf(Constraint.NONEMPTY)
+            constraints = listOf(NONEMPTY)
             default = "Main"
+        }
+
+        val layoutName = stringParameter {
+            name = "Layout Name"
+            constraints = listOf(LAYOUT, UNIQUE, NONEMPTY)
+            suggest = { activityToLayout("${screenName.value}Activity") }
+            default = "activity_main"
         }
 
         val packageName = defaultPackageNameParameter
 
         widgets(
             TextFieldWidget(screenName),
+            TextFieldWidget(layoutName),
             Separator,
             PackageNameWidget(packageName),
         )
@@ -40,6 +60,7 @@ val mvvmActivityTemplate
                 moduleData = data as ModuleTemplateData,
                 screenName = screenName.value,
                 packageName = packageName.value,
+                layoutName = layoutName.value
             )
         }
     }

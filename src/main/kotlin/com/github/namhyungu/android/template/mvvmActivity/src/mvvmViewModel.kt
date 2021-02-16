@@ -6,7 +6,8 @@ fun mvvmViewModel(
     packageName: String,
     viewModelClass: String,
     uiStateClass: String
-) = """
+) =
+    """
 package ${escapeKotlinIdentifier(packageName)}
 
 import androidx.lifecycle.LiveData
