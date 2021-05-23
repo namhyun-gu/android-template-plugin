@@ -22,15 +22,14 @@ val mvvmActivityTemplate
         name = "MVVM Activity"
         minApi = MIN_API
         description = ""
-        revision = 1
 
         category = Category.Other
         formFactor = FormFactor.Mobile
         screens = listOf(
-            WizardUiContext.ActivityGallery,
-            WizardUiContext.MenuEntry,
-            WizardUiContext.NewProject,
-            WizardUiContext.NewModule
+                WizardUiContext.ActivityGallery,
+                WizardUiContext.MenuEntry,
+                WizardUiContext.NewProject,
+                WizardUiContext.NewModule
         )
 
         val screenName = stringParameter {
@@ -49,18 +48,18 @@ val mvvmActivityTemplate
         val packageName = defaultPackageNameParameter
 
         widgets(
-            TextFieldWidget(screenName),
-            TextFieldWidget(layoutName),
-            Separator,
-            PackageNameWidget(packageName),
+                TextFieldWidget(screenName),
+                TextFieldWidget(layoutName),
+                Separator,
+                PackageNameWidget(packageName),
         )
 
         recipe = { data: TemplateData ->
             generateMVVMActivity(
-                moduleData = data as ModuleTemplateData,
-                screenName = screenName.value,
-                packageName = packageName.value,
-                layoutName = layoutName.value
+                    moduleData = data as ModuleTemplateData,
+                    screenName = screenName.value,
+                    packageName = packageName.value,
+                    layoutName = layoutName.value
             )
         }
     }
