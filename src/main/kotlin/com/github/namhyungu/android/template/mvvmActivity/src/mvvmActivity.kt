@@ -6,11 +6,12 @@ import com.android.tools.idea.wizard.template.getMaterialComponentName
 import com.android.tools.idea.wizard.template.renderIf
 
 fun mvvmActivity(
-    packageName: String,
-    applicationPackage: PackageName?,
-    activityClass: String,
-    layoutName: String,
-    useAndroidX: Boolean
+        packageName: String,
+        applicationPackage: PackageName?,
+        activityClass: String,
+        viewModelClass: String,
+        layoutName: String,
+        useAndroidX: Boolean
 ): String {
     val applicationPackageBlock = renderIf(applicationPackage != null) { "import $applicationPackage.R" }
 
@@ -22,15 +23,12 @@ import android.os.Bundle
 $applicationPackageBlock
 
 class $activityClass : AppCompatActivity() {
-    private val viewModel: ViewModel by viewModels()
+    private val viewModel: $viewModelClass by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.$layoutName)
-    }
-    
-    override fun onStart() {
-        super.onStart()
+        
         viewModel.uiState.observe(this) {
         }
     }

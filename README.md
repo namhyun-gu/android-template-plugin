@@ -5,25 +5,26 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID) -->
 
 <!-- Plugin description -->
-<!-- Plugin description end -->
 
 ## Supported Templates
 
+<!-- Plugin description end -->
+
 - MVVM Activity (New > Other > MVVM Activity)  
-  Generate Activity, Ui State, Action, UseCase, Layout XML
+  Generate Activity, Ui State, Layout XML
 
   <img src="images/preview_mvvm_activity.png"/>
 
   <details>
   <summary>Preview file content</summary>
   - Activity
-    
+
   ```kotlin
   import androidx.appcompat.app.AppCompatActivity
   import android.os.Bundle
 
   class ${screenName}Activity : AppCompatActivity() {
-    private val viewModel: ViewModel by viewModels()
+    private val viewModel: ${screenName}ViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.activity_${screenName})
@@ -36,37 +37,25 @@
     }
   }
   ```
-  - UiState
+    - UiState
 
   ```kotlin
-  data class ${screenName}UiState(val data: String = "")
+  sealed class ${screenName}UiState
   ```
-  - ViewModel
-  
+    - ViewModel
+
   ```kotlin
   import androidx.lifecycle.LiveData
   import androidx.lifecycle.MutableLiveData
   import androidx.lifecycle.ViewModel
 
   class ${screenName}ViewModel : ViewModel() {
-    private val _uiState = MutableLiveData(${screenName}UiState())
+    private val _uiState = MutableLiveData<${screenName}UiState>()
     val uiState: LiveData<${screenName}UiState> = _uiState
   }
   ```
-  - Action
-  
-  ```kotlin
-  sealed class ${screenName}Action
-  ```
-  - UseCase
-  
-  ```kotlin
-  class ${screenName}UseCase(
-  ) : UseCase<P, R> {
-  }
-  ```
   </details>
-    
+
 ## Installation
 
 - Using IDE built-in plugin system:
